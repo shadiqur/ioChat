@@ -15,7 +15,7 @@
   </head>
 
   <body>
-      {{name}}
+      <h1 style="margin-left: 550px;margin-top: 5px;color: red">Welcome <%= name %></h1>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
@@ -29,9 +29,13 @@
 <script>
 $(function(){
  
+
+   var name = "<%= name %>";
+  // console.log({name});
   var socket = io();
 
-  console.log(session.name);
+  // console.log({name});
+
   $('form').submit(function(){
     
     var username = $('#name').val();
@@ -39,14 +43,14 @@ $(function(){
     
     console.log(username);
 
-    socket.emit('mymessage',{ "name": username, "msg": message });
+    socket.emit('mymessage',{ "msg": message });
 
     $('#m').val('');
     return false;
   });
 
   socket.on('chat message', function(data){
-      $('#messages').append($('<li>').text(data.name+ ' : ' +data.msg));
+      $('#messages').append($('<li>').text(name+ ' : ' +data.msg));
     });
 
 });

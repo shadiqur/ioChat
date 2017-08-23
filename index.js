@@ -13,14 +13,19 @@ app.use(express.static(__dirname + '/style'));
 app.use( bodyParser.json() );       
 app.use(bodyParser.urlencoded({ extended: false}));
 
-app.use(session({secret: "Shh, its a secret!"}));
+app.use(session({secret: "Shh, its a secret!",Resave: false }));
+
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
 
 
 
 app.get('/login',function(req,res){
 
 	console.log(req.session.name);
-	res.sendFile(__dirname + '/index.html');
+	res.render('index',{name : req.session.name});
 });
 
 app.get('/',function(req,res){
@@ -31,9 +36,9 @@ app.get('/',function(req,res){
 app.post('/',function(req,res,next){
 	
 
-	var username = req.body;
+	var username = req.body.name;
 	var sessdata = req.session;
-	sassdata.name = username;
+	sessdata.name = username;
 
 	console.log(username);
 
@@ -47,7 +52,7 @@ app.post('/',function(req,res,next){
 io.on('connection',function(socket){
 	socket.on('mymessage',function(data){
 	 io.emit('chat message', data);
-		// console.log(data.name+' : ' +data.msg);
+		console.log(data.msg);
 	});
 });
 
