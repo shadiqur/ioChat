@@ -4,7 +4,9 @@
   "description": "its a chat app",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.2",
+    "express-session": "^1.15.5",
     "socket.io": "^2.0.3"
   }
 }
